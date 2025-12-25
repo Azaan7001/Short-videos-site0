@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Short Video Platform - Shan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0;font-family:Arial;background:#000;color:#fff}
+header{padding:10px;text-align:center;background:#111}
+#feed{max-width:480px;margin:auto}
+.video-card{margin:10px 0;background:#111;border-radius:10px;overflow:hidden}
+video{width:100%;height:auto}
+.actions{padding:8px;font-size:14px}
+.upload{position:fixed;bottom:10px;right:10px}
+.upload input{display:none}
+.upload label{background:red;color:#fff;padding:12px 16px;border-radius:50%}
+.ad{background:#222;text-align:center;padding:15px;margin:10px;border-radius:8px;color:#aaa}
+#ageGate{
+ position:fixed;inset:0;background:#000;display:flex;
+ align-items:center;justify-content:center;z-index:999
+}
+#ageBox{background:#111;padding:20px;border-radius:10px;text-align:center}
+button{padding:10px 16px;border:none;border-radius:6px}
+</style>
+</head>
+<body>
+
+<div id="ageGate">
+  <div id="ageBox">
+    <h2>18+ Verification</h2>
+    <p>I confirm I am 18 years or older</p>
+    <button onclick="verifyAge()">Enter</button>
+  </div>
+</div>
+
+<header>🎬 Short Video Platform</header>
+
+<div id="feed">
+  <div class="ad">Ad Placeholder (Google AdSense)</div>
+</div>
+
+<div class="upload">
+  <label for="videoUpload">＋</label>
+  <input type="file" id="videoUpload" accept="video/*">
+</div>
+
+<script>
+function verifyAge(){
+  localStorage.setItem("ageVerified","yes");
+  document.getElementById("ageGate").style.display="none";
+}
+if(localStorage.getItem("ageVerified")==="yes"){
+  document.getElementById("ageGate").style.display="none";
+}
+
+const feed=document.getElementById("feed");
+document.getElementById("videoUpload").addEventListener("change",e=>{
+  const file=e.target.files[0];
+  if(!file)return;
+  const url=URL.createObjectURL(file);
+
+  const card=document.createElement("div");
+  card.className="video-card";
+  card.innerHTML=`
+    <video controls autoplay loop src="${url}"></video>
+    <div class="actions">❤️ Like · 💬 Comment · ↗ Share</div>
+  `;
+  feed.prepend(card);
+});
+</script>
+
+</body>
+  </html>
+  
